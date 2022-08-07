@@ -11,24 +11,14 @@ class Intro extends StatelessWidget {
       body: Center(
         child: Container(
           width: (MediaQuery.of(context).size.width) * 0.6,
-          height: (MediaQuery.of(context).size.height) * 0.5,
+          height: (MediaQuery.of(context).size.height) * 0.6,
           child: Column(
             children: [
               Container(
-                // app logo 넣기
                 alignment: Alignment.center,
-                width: 200,
-                height: 100,
-                color: c2,
-                margin: const EdgeInsets.only(bottom: 60),
-                child: Text(
-                  'app logo',
-                  style: TextStyle(
-                    color: c1,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 40,
-                  ),
-                ),
+                width: (MediaQuery.of(context).size.width) * 0.3,
+                margin: const EdgeInsets.only(top: 30, bottom: 60),
+                child: Image.asset('assets/images/intro_logo.png'),
               ),
               Container(
                 alignment: Alignment.center,

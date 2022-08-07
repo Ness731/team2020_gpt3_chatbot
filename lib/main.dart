@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'UI/intro.dart';
+import 'model/gpt-3.dart';
 
 void main() {
   runApp(MyApp());

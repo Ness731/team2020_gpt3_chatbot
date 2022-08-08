@@ -7,21 +7,22 @@ const c2 = Colors.white;
 
 class Home extends StatefulWidget {
   String userName;
+  late final OpenAI openAI =
+        new OpenAI(apiKey: "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");
 
   Home(this.userName);
 
   @override
-  State<Home> createState() => _HomeState();
+  State<Home> createState() => _HomeState(openAI);
 }
 
 class _HomeState extends State<Home> {
   var textController = TextEditingController();
   final scrollController = ScrollController();
 
-  OpenAI openAI =
-      new OpenAI(apiKey: "");
-
+  OpenAI openAI;
   List<Chat> chat = [];
+  _HomeState(this.openAI);
   int tokens = 50; // 임시
 
   void addData(Chat data) {

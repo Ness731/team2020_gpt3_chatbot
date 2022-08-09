@@ -3,30 +3,33 @@ import 'package:intl/intl.dart';
 import 'package:team2020_gpt3_chatbot/model/gpt-3.dart';
 import 'package:team2020_gpt3_chatbot/model/chat.dart';
 
+import '../model/translator.dart';
+
 const c1 = Color(0xff90a2f0);
 const c2 = Colors.white;
 
 class Home extends StatefulWidget {
   String userName;
+  static String OPEN_AI_KEY = ''; // * key 입력 후 실행하세요
+
   late final OpenAI openAI =
-      new OpenAI(apiKey: "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");
+      new OpenAI(apiKey: OPEN_AI_KEY);
 
   Home(this.userName);
 
   @override
-  State<Home> createState() => _HomeState(openAI);
+  State<Home> createState() => _HomeState(openAI, userName);
 }
 
 class _HomeState extends State<Home> {
   var textController = TextEditingController();
   final scrollController = ScrollController();
-
+  String userName;
   OpenAI openAI;
   List<Chat> chat = [];
+  int tokens = 15;
 
-  _HomeState(this.openAI);
-
-  int tokens = 50; // 임시
+  _HomeState(this.openAI, this.userName);
 
   void addData(Chat data) {
     setState(() {
@@ -57,14 +60,32 @@ class _HomeState extends State<Home> {
     return '';
   }
 
+  bool hasDateChanged(Chat pre){
+    return (pre.date.compareTo(getToday()) != 0); // 직전 메시지와 날짜가 다른 경우 true
+  }
+
   String getTime() {
     DateTime now = DateTime.now();
     String time = DateFormat('HH:mm').format(now);
     return time;
   }
 
+  bool flag = false;
+
+  void addStartScript(){
+    String chatDate = dateCheck();
+    String startScript = "만나서 반가워 " + this.userName + "!\n"
+        "나는 인공지능 챗봇 OO이야 :)\n"
+        "우리 대화를 시작해볼까?";
+    addData(Chat(chatDate, getTime(), startScript, true));
+    if(flag == false)
+      flag = true;
+  }
+
   @override
   Widget build(BuildContext context) {
+    if(flag == false)
+      addStartScript();
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -114,19 +135,20 @@ class _HomeState extends State<Home> {
                           vertical: 10, horizontal: 14),
                       child: Column(
                         children: [
-                          Container(
-                            margin: (chat[index].date != ''
-                                ? const EdgeInsets.only(bottom: 20)
-                                : const EdgeInsets.all(0)),
-                            child: Text(
-                              chat[index].date,
-                              style: const TextStyle(
-                                color: c1,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
+                          if(index == 0 || hasDateChanged(chat[index-1]))
+                            Container(
+                              margin: (chat[index].date != ''
+                                  ? const EdgeInsets.only(bottom: 20)
+                                  : const EdgeInsets.all(0)),
+                              child: Text(
+                                chat[index].date,
+                                style: const TextStyle(
+                                  color: c1,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
                               ),
                             ),
-                          ),
                           Container(
                             alignment: (chat[index].isAnswer
                                 ? Alignment.topLeft
@@ -151,13 +173,14 @@ class _HomeState extends State<Home> {
                                 : MainAxisAlignment.end),
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              Container(
-                                margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                                child: Text(
-                                  chat[index].time,
-                                  style: const TextStyle(fontSize: 10),
+                              if(chat[index].isAnswer == false)
+                                  Container(
+                                    margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                    child: Text(
+                                      chat[index].time,
+                                    style: const TextStyle(fontSize: 10),
+                                  ),
                                 ),
-                              ),
                               Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
@@ -176,6 +199,14 @@ class _HomeState extends State<Home> {
                                   ),
                                 ),
                               ),
+                              if(chat[index].isAnswer)
+                                Container(
+                                  margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                  child: Text(
+                                    chat[index].time,
+                                    style: const TextStyle(fontSize: 10),
+                                  ),
+                                ),
                             ],
                           ),
                         ],
@@ -211,25 +242,34 @@ class _HomeState extends State<Home> {
                           margin: const EdgeInsets.symmetric(horizontal: 5),
                           child: MaterialButton(
                             onPressed: () async {
+                              String chatDate = dateCheck();
                               String text = textController.text;
-                              textController.clear();
-                              if (text != '') {
-                                String chatDate = dateCheck();
+
+                              if (text.isNotEmpty) {
                                 addData(Chat(chatDate, getTime(), text, false));
+
                                 scrollController.animateTo(
                                     scrollController.position.maxScrollExtent,
                                     duration: const Duration(milliseconds: 100),
                                     curve: Curves.linear);
+
+                                String translatedText = await translateToEnglish(text);
+
                                 String answer =
-                                    await openAI.complete(text, tokens);
+                                    await openAI.complete(translatedText, tokens);
+
+                                String translatedAnswer = await translateToKorean(answer);
+
                                 if (answer != null) {
-                                  addData(Chat(
-                                      getToday(), getTime(), answer, true));
+                                  addData(Chat(chatDate, getTime(), translatedAnswer, true));
+
                                   scrollController.animateTo(
                                       scrollController.position.maxScrollExtent,
                                       duration:
                                           const Duration(milliseconds: 100),
                                       curve: Curves.linear);
+
+                                  textController.clear();
                                 }
                               }
                             },

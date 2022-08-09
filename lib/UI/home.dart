@@ -3,17 +3,17 @@ import 'package:intl/intl.dart';
 import 'package:team2020_gpt3_chatbot/model/gpt-3.dart';
 import 'package:team2020_gpt3_chatbot/model/chat.dart';
 
-import '../model/translator.dart';
+import '../model/papago.dart';
 
 const c1 = Color(0xff90a2f0);
 const c2 = Colors.white;
 
 class Home extends StatefulWidget {
   String userName;
-  static String OPEN_AI_KEY = ''; // * key 입력 후 실행하세요
+  static String OPEN_AI_KEY =
+      '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'; // * key 입력 후 실행하세요
 
-  late final OpenAI openAI =
-      new OpenAI(apiKey: OPEN_AI_KEY);
+  late final OpenAI openAI = new OpenAI(apiKey: OPEN_AI_KEY);
 
   Home(this.userName);
 
@@ -22,12 +22,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  Papago papago = new Papago();
   var textController = TextEditingController();
   final scrollController = ScrollController();
   String userName;
   OpenAI openAI;
   List<Chat> chat = [];
-  int tokens = 15;
+  int tokens = 10;
 
   _HomeState(this.openAI, this.userName);
 
@@ -60,7 +61,7 @@ class _HomeState extends State<Home> {
     return '';
   }
 
-  bool hasDateChanged(Chat pre){
+  bool hasDateChanged(Chat pre) {
     return (pre.date.compareTo(getToday()) != 0); // 직전 메시지와 날짜가 다른 경우 true
   }
 
@@ -72,20 +73,20 @@ class _HomeState extends State<Home> {
 
   bool flag = false;
 
-  void addStartScript(){
+  void addStartScript() {
     String chatDate = dateCheck();
-    String startScript = "만나서 반가워 " + this.userName + "!\n"
-        "나는 인공지능 챗봇 OO이야 :)\n"
-        "우리 대화를 시작해볼까?";
+    String startScript = "만나서 반가워 " +
+        this.userName +
+        "!\n"
+            "나는 인공지능 챗봇 OO이야.\n"
+            "우리 대화를 시작해볼까?";
     addData(Chat(chatDate, getTime(), startScript, true));
-    if(flag == false)
-      flag = true;
+    if (flag == false) flag = true;
   }
 
   @override
   Widget build(BuildContext context) {
-    if(flag == false)
-      addStartScript();
+    if (flag == false) addStartScript();
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -135,81 +136,107 @@ class _HomeState extends State<Home> {
                           vertical: 10, horizontal: 14),
                       child: Column(
                         children: [
-                          if(index == 0 || hasDateChanged(chat[index-1]))
+                          if (index == 0 || hasDateChanged(chat[index - 1]))
                             Container(
                               margin: (chat[index].date != ''
                                   ? const EdgeInsets.only(bottom: 20)
                                   : const EdgeInsets.all(0)),
-                              child: Text(
-                                chat[index].date,
-                                style: const TextStyle(
-                                  color: c1,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                ),
-                              ),
                             ),
-                          Container(
-                            alignment: (chat[index].isAnswer
-                                ? Alignment.topLeft
-                                : Alignment.topRight),
-                            margin: const EdgeInsets.fromLTRB(10, 0, 10, 5),
-                            child: Text(
-                              (chat[index].isAnswer
-                                  ? 'chatbot'
-                                  : widget.userName),
-                              style: TextStyle(
-                                color: (chat[index].isAnswer
-                                    ? c1
-                                    : Colors.grey.shade400),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ),
                           Row(
-                            mainAxisAlignment: (chat[index].isAnswer
-                                ? MainAxisAlignment.start
-                                : MainAxisAlignment.end),
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              if(chat[index].isAnswer == false)
-                                  Container(
-                                    margin: const EdgeInsets.all(10),
-                                    child: Text(
-                                      chat[index].time,
-                                    style: const TextStyle(fontSize: 10),
+                              mainAxisAlignment: (chat[index].isAnswer
+                                  ? MainAxisAlignment.start
+                                  : MainAxisAlignment.end),
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (chat[index].isAnswer)
+                                  Padding(
+                                    padding: EdgeInsets.only(bottom: 10, right: 10),
+                                    child: Container(
+                                      width: 50,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: AssetImage(
+                                                'assets/images/bot_logo.png'),
+                                            fit: BoxFit.cover),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              Container(
-                                constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.7),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: (chat[index].isAnswer
-                                      ? Colors.grey.shade200
-                                      : c1),
-                                ),
-                                padding: const EdgeInsets.all(16),
-                                child: Text(
-                                  chat[index].script,
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: (chat[index].isAnswer
-                                        ? Colors.black
-                                        : c2),
-                                  ),
-                                ),
-                              ),
-                              if(chat[index].isAnswer)
-                                Container(
-                                  margin: const EdgeInsets.all(10),
-                                  child: Text(
-                                    chat[index].time,
-                                    style: const TextStyle(fontSize: 10),
-                                  ),
-                                ),
-                            ],
-                          ),
+                                Column(
+                                  crossAxisAlignment: (chat[index].isAnswer
+                                      ? CrossAxisAlignment.start
+                                      : CrossAxisAlignment.end),
+                                  children: [
+                                    Container(
+                                      alignment: (chat[index].isAnswer
+                                          ? Alignment.topLeft
+                                          : Alignment.topRight),
+                                      margin: const EdgeInsets.fromLTRB(
+                                          10, 0, 10, 5),
+                                      child: Text(
+                                        (chat[index].isAnswer
+                                            ? 'chatbot'
+                                            : widget.userName),
+                                        style: TextStyle(
+                                          color: (chat[index].isAnswer
+                                              ? c1
+                                              : Colors.grey.shade400),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: (chat[index].isAnswer
+                                          ? MainAxisAlignment.start
+                                          : MainAxisAlignment.end),
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        if (chat[index].isAnswer == false)
+                                          Container(
+                                            margin: const EdgeInsets.all(10),
+                                            child: Text(
+                                              chat[index].time,
+                                              style:
+                                                  const TextStyle(fontSize: 10),
+                                            ),
+                                          ),
+                                        Container(
+                                          constraints: BoxConstraints(
+                                              maxWidth: MediaQuery.of(context).size.width * 0.7),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(17),
+                                            color: (chat[index].isAnswer
+                                                ? Colors.grey.shade200
+                                                : c1),
+                                          ),
+                                          padding: const EdgeInsets.all(16),
+                                          child: Text(
+                                            chat[index].script,
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              color: (chat[index].isAnswer
+                                                  ? Colors.black
+                                                  : c2),
+                                            ),
+                                          ),
+                                        ),
+                                        if (chat[index].isAnswer)
+                                          Container(
+                                            margin: const EdgeInsets.all(10),
+                                            child: Text(
+                                              chat[index].time,
+                                              style:
+                                                  const TextStyle(fontSize: 10),
+                                            ),
+                                          ),
+                                      ],
+                                    ),
+                                  ],
+                                )
+                              ]),
                         ],
                       ),
                     );
@@ -254,15 +281,18 @@ class _HomeState extends State<Home> {
                                     duration: const Duration(milliseconds: 100),
                                     curve: Curves.linear);
 
-                                String translatedText = await translateToEnglish(text);
+                                String translatedText =
+                                    await papago.translate(text, 'ko', 'en');
 
-                                String answer =
-                                    await openAI.complete(translatedText, tokens);
+                                String answer = await openAI.complete(
+                                    translatedText, tokens);
 
-                                String translatedAnswer = await translateToKorean(answer);
+                                String translatedAnswer =
+                                    await papago.translate(answer, 'en', 'ko');
 
                                 if (answer != null) {
-                                  addData(Chat(chatDate, getTime(), translatedAnswer, true));
+                                  addData(Chat(chatDate, getTime(),
+                                      translatedAnswer, true));
 
                                   scrollController.animateTo(
                                       scrollController.position.maxScrollExtent,

@@ -14,22 +14,26 @@ class Intro extends StatelessWidget {
         }, // 키보드 밖의 영역 터치 시 키보드가 내려가도록 함
         child: Center(
           child: Container(
-            width: 300,
-            height: 400,
+            width: MediaQuery.of(context).size.width * 0.7,
+            height: MediaQuery.of(context).size.height * 0.55,
             child: Column(
               children: [
-                Container(
-                  alignment: Alignment.center,
-                  width: 140,
-                  margin: const EdgeInsets.only(top: 30, bottom: 60),
-                  child: Image.asset('assets/images/intro_logo.png'),
+                Text(
+                  'GPT-3 Chatbot',
+                  style: TextStyle(color: c2, fontSize: 30, fontWeight: FontWeight.bold),
                 ),
                 Container(
                   alignment: Alignment.center,
-                  margin: const EdgeInsets.only(bottom: 5),
+                  width: 140,
+                  margin: const EdgeInsets.only(top: 30, bottom: 30),
+                  child: Image.asset('assets/images/bot_logo.png'),
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  margin: const EdgeInsets.only(bottom: 10),
                   child: const Text(
                     '이름을 입력해주세요',
-                    style: TextStyle(color: c2, fontSize: 14),
+                    style: TextStyle(color: c2, fontSize: 16),
                   ),
                 ),
                 Container(

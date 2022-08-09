@@ -175,13 +175,14 @@ class _HomeState extends State<Home> {
                             children: [
                               if(chat[index].isAnswer == false)
                                   Container(
-                                    margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                    margin: const EdgeInsets.all(10),
                                     child: Text(
                                       chat[index].time,
                                     style: const TextStyle(fontSize: 10),
                                   ),
                                 ),
                               Container(
+                                constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.7),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
                                   color: (chat[index].isAnswer
@@ -201,7 +202,7 @@ class _HomeState extends State<Home> {
                               ),
                               if(chat[index].isAnswer)
                                 Container(
-                                  margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                  margin: const EdgeInsets.all(10),
                                   child: Text(
                                     chat[index].time,
                                     style: const TextStyle(fontSize: 10),

@@ -3,8 +3,8 @@ import 'dart:async';
 import 'dart:convert';
 
 class Papago {
-  String client_id = "HDARwJNgVsAilV75Mipc";
-  String client_secret = "rEDlbf6FHU";
+  String client_id = ""; // *** 키 입력 후 사용바람 ***
+  String client_secret = ""; // 키 입력 후 사용바람 ***
   String content_type = "application/x-www-form-urlencoded; charset=UTF-8";
   String url = "https://openapi.naver.com/v1/papago/n2mt";
   var Target = ['ko', 'en'];

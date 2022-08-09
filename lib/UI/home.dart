@@ -10,8 +10,7 @@ const c2 = Colors.white;
 
 class Home extends StatefulWidget {
   String userName;
-  static String OPEN_AI_KEY =
-      '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'; // * key 입력 후 실행하세요
+  static String OPEN_AI_KEY = ""; // *** 키 입력 후 사용바람 ***
 
   late final OpenAI openAI = new OpenAI(apiKey: OPEN_AI_KEY);
 
@@ -28,7 +27,7 @@ class _HomeState extends State<Home> {
   String userName;
   OpenAI openAI;
   List<Chat> chat = [];
-  int tokens = 10;
+  int tokens = 12;
 
   _HomeState(this.openAI, this.userName);
 
@@ -78,7 +77,7 @@ class _HomeState extends State<Home> {
     String startScript = "만나서 반가워 " +
         this.userName +
         "!\n"
-            "나는 인공지능 챗봇 OO이야.\n"
+            "나는 인공지능 챗봇 사라야.\n"
             "우리 대화를 시작해볼까?";
     addData(Chat(chatDate, getTime(), startScript, true));
     if (flag == false) flag = true;
@@ -175,7 +174,7 @@ class _HomeState extends State<Home> {
                                           10, 0, 10, 5),
                                       child: Text(
                                         (chat[index].isAnswer
-                                            ? 'chatbot'
+                                            ? 'Sara'
                                             : widget.userName),
                                         style: TextStyle(
                                           color: (chat[index].isAnswer
@@ -204,7 +203,7 @@ class _HomeState extends State<Home> {
                                           ),
                                         Container(
                                           constraints: BoxConstraints(
-                                              maxWidth: MediaQuery.of(context).size.width * 0.7),
+                                              maxWidth: MediaQuery.of(context).size.width * 0.6),
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(17),

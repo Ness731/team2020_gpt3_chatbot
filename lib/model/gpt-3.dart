@@ -5,18 +5,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-class Param {
-  String name;
-  var value;
-
-  Param(this.name, this.value);
-
-  @override
-  String toString() {
-    return '{ ${this.name}, ${this.value} }';
-  }
-}
-
 class OpenAI {
   String apiKey;
 
@@ -26,7 +14,6 @@ class OpenAI {
 
   Future<String> complete(String prompt, int maxTokens) async {
     String apiKey = this.apiKey;
-    String engine = "text-davinci-002";
     num temperature = 0.8;
     num top_p = 1;
     num frequency_penalty = 0.5;
@@ -42,8 +29,7 @@ class OpenAI {
     };
     Map reqData = {...parameter};
 
-    var response = await http
-        .post(
+    var response = await http.post(
           Uri.parse(url),
           headers: {
             HttpHeaders.authorizationHeader: "Bearer $apiKey",

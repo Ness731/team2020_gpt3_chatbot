@@ -16,14 +16,25 @@
 ![image05](https://user-images.githubusercontent.com/103942182/201093508-de775e8c-2e89-4d33-a582-4e8093c14814.png)
 <br>
 
-### 💁‍♀️ Developers
-:black_small_square:김정현<br> <a href="https://github.com/Jhyunee"><img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"></a><br>
-  
-:black_small_square:서혜린<br> <a href="https://github.com/sxhxrx"><img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"></a><br>
-  
-:black_small_square:정진주<br> <a href="https://github.com/Ness731"><img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"></a><br>
-  
-:black_small_square:조희연<br> <a href="https://github.com/chy0503"><img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"></a><br>
+### 💁‍♀️ Member and Role
+:black_small_square:__정진주__<br>
+- 프로젝트 매니저(PM)
+- 백엔드 개발자
+- 지라, 깃허브 관리자
+<p><a href="https://github.com/Ness731"><img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"></a>
+
+:black_small_square:__조희연__<br>
+- 프론트엔드 헤드 개발자
+- 노션 관리자
+<p><a href="https://github.com/chy0503"><img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"></a>
+
+:black_small_square:__김정현__<br>
+- 백엔드 개발자
+<p><a href="https://github.com/Jhyunee"><img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"></a>
+
+:black_small_square:__서혜린__<br>
+- 프론트엔드 서브 개발자
+<p><a href="https://github.com/sxhxrx"><img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"></a>
 <br>
 
 ### 🔧 Develop Tool

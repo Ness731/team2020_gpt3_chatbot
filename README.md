@@ -6,7 +6,7 @@
 <p><img src="https://user-images.githubusercontent.com/103942182/201093053-3dff5c6f-f808-4077-b18c-b848040598a2.png"  width="850" height="320">
 <br>
 
-### 🔖 Result
+### 🔖 Preview
 
 ![image01](https://user-images.githubusercontent.com/103942182/201093440-155dc5bc-a2d0-4ba1-b3e7-5cecd14a4fcb.png)
 ![image02](https://user-images.githubusercontent.com/103942182/201093516-05247f79-a6fd-4363-af93-646c64faff2b.png)
